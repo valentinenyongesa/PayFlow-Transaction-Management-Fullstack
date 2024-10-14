@@ -6,7 +6,7 @@ function App() {
   const [formData, setFormData] = useState({ description: '', amount: '' });
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/transactions/')
+    axios.get('http://127.0.0.1:8000/transactions/')
       .then(response => {
         setTransactions(response.data);
       })
@@ -25,7 +25,7 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://127.0.0.1:8000/api/transactions/create/', formData)
+    axios.post('http://127.0.0.1:8000/transactions/create/', formData)
       .then(response => {
         setTransactions([...transactions, response.data]);
         setFormData({ description: '', amount: '' }); // Clear the form after submission
