@@ -58,7 +58,8 @@ li {
   }
   to {
     transform: rotate(360deg);
-  }
+  } /* Closing the keyframes block */
+} /* <-- Add this closing brace */
 
 /* Keep your existing App header styles */
 .App-header {
