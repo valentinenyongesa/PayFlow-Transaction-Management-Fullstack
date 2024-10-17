@@ -1,0 +1,25 @@
+body {
+    background-image: url('/static/images/money_notes_or_coins.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1;
+}
+
+form input, form select, form button {
+    margin: 5px 0;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #45a049;
+}
