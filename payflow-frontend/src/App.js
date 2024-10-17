@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Transaction Management System</h1>
+      <h1>PayFlow</h1>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
