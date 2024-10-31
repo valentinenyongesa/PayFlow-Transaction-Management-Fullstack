@@ -9,10 +9,9 @@ function App() {
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/transactions/')
       .then(response => {
-        // Ensure that amounts are converted to numbers when fetching
         const transactionsWithNumbers = response.data.map(transaction => ({
           ...transaction,
-          amount: parseFloat(transaction.amount) // Convert to number
+          amount: parseFloat(transaction.amount)
         }));
         setTransactions(transactionsWithNumbers);
       })
@@ -33,31 +32,41 @@ function App() {
     e.preventDefault();
     const newTransaction = {
       ...formData,
-      amount: parseFloat(formData.amount) // Ensure amount is a number
+      amount: parseFloat(formData.amount)
     };
     axios.post('http://127.0.0.1:8000/transactions/create/', newTransaction)
       .then(response => {
         setTransactions([...transactions, { ...response.data, amount: parseFloat(response.data.amount) }]);
-        setFormData({ description: '', amount: '' }); // Clear the form after submission
+        setFormData({ description: '', amount: '' });
       })
       .catch(error => {
         console.error('There was an error creating the transaction!', error);
       });
   };
 
+  // New function to handle deleting a transaction
+  const handleDelete = (transactionId) => {
+    axios.delete(`http://127.0.0.1:8000/transactions/delete/${transactionId}/`)
+      .then(() => {
+        // Remove the deleted transaction from the list
+        setTransactions(transactions.filter(transaction => transaction.id !== transactionId));
+      })
+      .catch(error => {
+        console.error('There was an error deleting the transaction!', error);
+      });
+  };
+
   return (
     <div className="App">
-      {/* Heading */}
       <h1>PayFlow</h1>
 
-      {/* Form container */}
       <div className="form-container">
         <form onSubmit={handleSubmit}>
           <label htmlFor="description">Description</label>
           <input
             type="text"
             name="description"
-            id="description" // Added ID for the label
+            id="description"
             placeholder="Enter description"
             value={formData.description}
             onChange={handleInputChange}
@@ -66,7 +75,7 @@ function App() {
           <input
             type="number"
             name="amount"
-            id="amount" // Added ID for the label
+            id="amount"
             placeholder="Enter amount"
             value={formData.amount}
             onChange={handleInputChange}
@@ -75,12 +84,13 @@ function App() {
         </form>
       </div>
 
-      {/* Transaction list */}
       <div className="list-container">
         <ul>
           {transactions.map(transaction => (
             <li key={transaction.id}>
               {transaction.description} - ${!isNaN(transaction.amount) ? transaction.amount.toFixed(2) : 'N/A'}
+              {/* Delete button for each transaction */}
+              <button onClick={() => handleDelete(transaction.id)}>Delete</button>
             </li>
           ))}
         </ul>
